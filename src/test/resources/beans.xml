@@ -15,7 +15,7 @@
         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
         default-autowire="byName">
 
-<context:component-scan base-package="com.ywpay.cache" />
+<context:component-scan base-package="com.jeex.sci" />
 
 <bean id="memcachedClient" class="net.spy.memcached.spring.MemcachedClientFactoryBean">  
     <property name="servers" value="127.0.0.1:12000"/>  
@@ -36,7 +36,7 @@
   </bean>
   
    
-  	<bean id="cacheInterceptor" class="com.ywpay.cache.CacheInterceptor">
+  	<bean id="cacheInterceptor" class="com.jeex.sci.CacheInterceptor">
   		<property name="timeoutInSeconds" value="5"/>
   		<property name="retryInMinutes" value="1"/>
   		<property name="memcachedClient" ref="memcachedClient"/>
