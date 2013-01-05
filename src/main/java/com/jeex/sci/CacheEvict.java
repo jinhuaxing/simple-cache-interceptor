@@ -15,6 +15,7 @@ import java.lang.annotation.Target;
 public @interface CacheEvict {
 	String namespace();
 	String key() default "";
+	int[] keyArgs() default {};
 	String[] keyProperties() default {};
 	String keyGenerator() default "";
 }

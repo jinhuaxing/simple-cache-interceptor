@@ -140,18 +140,39 @@ public class CacheInterceptor implements MethodInterceptor {
 		String key = ki.key();
 		try {
 			if (key.equals("")) {
-				String[] keyProps = ki.keyProperties();
-				if (keyProps.length > 0) {
+				if (ki.keyArgs().length > 0) {
+					key = getKeyWithArgs(invoction.getArguments(), ki.keyArgs());					
+				} else if (ki.keyProperties().length > 0) {
 					Object o = invoction.getArguments()[0];
-					key = getKeyWithProperties(o, keyProps);				
+					key = getKeyWithProperties(o, ki.keyProperties());				
+				} else if (!ki.keyGenerator().equals("")) {
+					key = getKeyWithGenerator(invoction, ki.keyGenerator());
 				} else {
-					key = getKeyWithGenerator(invoction, ki);
+					/* key should be empty*/
 				}
 			}
 		} catch (Exception e) {
-			log.warn(e);
+			log.warn("Get key failed", e);
 		}
 		return key;
+	}
+	
+	/* Get key use the arguments of the intercepted method. */
+	private String getKeyWithArgs(Object[] args, int[] argIndex) {
+		StringBuilder key = new StringBuilder();
+		boolean first = true;
+		for (int index: argIndex) {
+			if (index < 0 || index >= args.length) {
+				throw new IllegalArgumentException("Index out of bound");
+			}
+			if (!first) {
+				key.append(':');
+			} else {
+				first = false;
+			}
+			key = key.append(args[index]);
+		}
+		return key.toString();
 	}
 	
 	/* Get key using the properties of the first parameter of the intercepted method */
@@ -177,16 +198,11 @@ public class CacheInterceptor implements MethodInterceptor {
 	}
 
 	/* Get key using the generator */
-	private String getKeyWithGenerator(MethodInvocation invoction, KeyInfo ki) 
+	private String getKeyWithGenerator(MethodInvocation invoction, String keyGenerator) 
 			throws Exception {
-		String key = "";
-		String kg = ki.keyGenerator();
-		if (!kg.equals("")) {					
-			Class<?> ckg = Class.forName(kg);
-			CacheKeyGenerator ikg = (CacheKeyGenerator)ckg.newInstance();
-			key = ikg.generate(invoction.getArguments());
-		}
-		return key;
+		Class<?> ckg = Class.forName(keyGenerator);
+		CacheKeyGenerator ikg = (CacheKeyGenerator)ckg.newInstance();
+		return ikg.generate(invoction.getArguments());
 	}
 	
 	/* Make the key feeding to memcached. */
@@ -197,11 +213,13 @@ public class CacheInterceptor implements MethodInterceptor {
 	/* Helper class to hold key generating information. */
 	private static class KeyInfo {
 		String key;
+		int[]  keyArgs;
 		String keyProperties[];
 		String keyGenerator;
 		static KeyInfo fromCacheable(Cacheable c) {
 			KeyInfo ki = new KeyInfo();
 			ki.key = c.key();
+			ki.keyArgs = c.keyArgs();
 			ki.keyGenerator = c.keyGenerator();
 			ki.keyProperties = c.keyProperties();
 			return ki;
@@ -210,6 +228,7 @@ public class CacheInterceptor implements MethodInterceptor {
 		static KeyInfo fromCacheEvict(CacheEvict ce) {
 			KeyInfo ki = new KeyInfo();
 			ki.key = ce.key();
+			ki.keyArgs = ce.keyArgs();
 			ki.keyGenerator = ce.keyGenerator();
 			ki.keyProperties = ce.keyProperties();
 			return ki;			
@@ -217,6 +236,10 @@ public class CacheInterceptor implements MethodInterceptor {
 
 		String key() {
 			return key;
+		}
+		
+		int[] keyArgs() {
+			return keyArgs;
 		}
 
 		String[] keyProperties() {

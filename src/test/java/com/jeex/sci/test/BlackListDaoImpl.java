@@ -14,6 +14,12 @@ public class BlackListDaoImpl implements BlackListDao {
 		return 100;
 	}
 	
+	// Key is set using the arguments
+	@Cacheable(namespace="BlackList", keyArgs={0, 1})
+	public int anotherMethond(int a, int b) {
+		return 100;
+	}
+	
 	// Key is set from Java Bean properties from the first argument
 	@Cacheable(namespace="BlackList", keyProperties={"infoType", "info"})
 	public int searchBlackListCount2(BlackListQuery query) {

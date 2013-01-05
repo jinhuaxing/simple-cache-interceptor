@@ -6,8 +6,9 @@ Spymemcached is used as the client to Memcached backend.
 
 Annotation is used to configure the intercepted method, providing the key generating
 information.
-There're three ways to generate the key:
+There're four ways to generate the key:
 (1) Set the key explicitly
+(3) Use the arguments of the intercepted method
 (2) Use the properties of the first argument of the intercepted method
 (3) Use the factory class which can access all arguments of the intercepted method.
 

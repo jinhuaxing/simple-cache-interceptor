@@ -26,6 +26,8 @@ public class TestMain {
 			
 			BlackListQuery query2 = new BlackListQuery(1, "123.231.23.14");
 			
+			dao.anotherMethond(333, 444);
+			
 			dao.searchBlackListCount2(query2);
 			dao.searchBlackListCount3(query2);
 			

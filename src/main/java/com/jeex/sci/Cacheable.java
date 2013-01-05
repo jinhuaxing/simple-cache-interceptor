@@ -15,6 +15,7 @@ import java.lang.annotation.RetentionPolicy;
 public @interface Cacheable {
 	String namespace();
 	String key() default "";
+	int[] keyArgs() default {};
 	String[] keyProperties() default {};
 	String keyGenerator() default "";
 	int expires() default 1800;
