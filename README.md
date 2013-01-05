@@ -8,9 +8,9 @@ Annotation is used to configure the intercepted method, providing the key genera
 information.
 There're four ways to generate the key:
 (1) Set the key explicitly
-(3) Use the arguments of the intercepted method
-(2) Use the properties of the first argument of the intercepted method
-(3) Use the factory class which can access all arguments of the intercepted method.
+(2) Use the arguments of the intercepted method
+(3) Use the properties of the first argument of the intercepted method
+(4) Use the factory class which can access all arguments of the intercepted method.
 
 Namespace is supported.
 
