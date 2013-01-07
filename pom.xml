@@ -1,56 +1,58 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.jeex</groupId>
-  <artifactId>simple-cache-interceptor</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Simple Cache Interceptor</name>
-  <description>An annotation based spring interceptor, to cache the return value of a method call.</description>
-  <properties>
-  	<maven.test.skip>true</maven.test.skip>
-  </properties>
-    
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.10</version>
-      <scope>test</scope>
-    </dependency>
-    
-	  <dependency>
-		<groupId>com.google.code.simple-spring-memcached</groupId>
-		<artifactId>spymemcached</artifactId>
-		<version>2.8.4</version>
-	  </dependency>
-	  <dependency>
-	  
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-beans</artifactId>
-	<version>3.0.5.RELEASE</version>
-	</dependency>
-	  
-    <dependency>	  
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-context</artifactId>
-	<version>3.0.5.RELEASE</version>	
-    </dependency>
-    
-    <dependency>	  
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-context-support</artifactId>
-	<version>3.0.5.RELEASE</version>	
-    </dependency>
-<dependency>
-	<groupId>cglib</groupId>
-	<artifactId>cglib</artifactId>
-	<version>2.2.2</version>
-</dependency>    
-<dependency>  
-<groupId>log4j</groupId>  
-<artifactId>log4j</artifactId>  
-<version>1.2.16</version>  
-</dependency>
- </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.jeex</groupId>
+	<artifactId>simple-cache-interceptor</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Simple Cache Interceptor</name>
+	<description>An annotation based spring interceptor, to cache the return value of a method call.</description>
+	<properties>
+		<maven.test.skip>true</maven.test.skip>
+	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
 
+		<dependency>
+			<groupId>com.google.code.simple-spring-memcached</groupId>
+			<artifactId>spymemcached</artifactId>
+			<version>2.8.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+	</dependencies>
+	
 </project>
