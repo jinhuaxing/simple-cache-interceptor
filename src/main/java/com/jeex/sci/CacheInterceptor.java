@@ -1,16 +1,15 @@
 package com.jeex.sci;
 
-import net.spy.memcached.MemcachedClient;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.lang.reflect.Method;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import net.spy.memcached.MemcachedClient;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class CacheInterceptor implements MethodInterceptor {
 	
@@ -21,10 +20,10 @@ public class CacheInterceptor implements MethodInterceptor {
 	private boolean cacheServerUnavailable = false;
 	private long cacheServerUnavailableSince = 0L;
 	
-	/* Timeout value in seconds when doing get from the cache system. */
+	// Timeout value in seconds when doing get from the cache system. 
 	private int timeoutInSeconds = 5;
 	
-	/* Waiting period in minutes for retry after last timeout occur. */
+	// Waiting period in minutes for retry after last timeout occur. 
 	private int retryInMinutes = 1;
 	
 	public Object invoke(MethodInvocation invoction) throws Throwable {
@@ -97,7 +96,7 @@ public class CacheInterceptor implements MethodInterceptor {
 		return invoction.proceed();
 	}
 
-	/* Get data from cache with timeout support */
+	// Get data from cache with timeout support 
 	private Object memcachedGet(String key) {
 		if (cacheServerUnavailable) {
 			long now = System.currentTimeMillis();
@@ -135,7 +134,7 @@ public class CacheInterceptor implements MethodInterceptor {
 		memcachedClient.delete(key);
 	}
 	
-	/* Get key for caching data */
+	// Get key for caching data 
 	private String getKey(MethodInvocation invoction, KeyInfo ki) {
 		String key = ki.key();
 		try {
@@ -148,7 +147,7 @@ public class CacheInterceptor implements MethodInterceptor {
 				} else if (!ki.keyGenerator().equals("")) {
 					key = getKeyWithGenerator(invoction, ki.keyGenerator());
 				} else {
-					/* key should be empty*/
+					// Key is empty
 				}
 			}
 		} catch (Exception e) {
@@ -157,7 +156,7 @@ public class CacheInterceptor implements MethodInterceptor {
 		return key;
 	}
 	
-	/* Get key use the arguments of the intercepted method. */
+	// Get key use the arguments of the intercepted method. 
 	private String getKeyWithArgs(Object[] args, int[] argIndex) {
 		StringBuilder key = new StringBuilder();
 		boolean first = true;
@@ -175,13 +174,13 @@ public class CacheInterceptor implements MethodInterceptor {
 		return key.toString();
 	}
 	
-	/* Get key using the properties of the first parameter of the intercepted method */
+	// Get key using the properties of the first parameter of the intercepted method 
 	private String getKeyWithProperties(Object o, String props[]) 
 			throws Exception {
 		StringBuilder key = new StringBuilder();
 		boolean first = true;
 		for (String prop: props) {
-			/* Convert the bean property to get method name */
+			// Convert the bean property to get method name 
 			String methodName = "get" 
 					+ prop.substring(0, 1).toUpperCase() 
 					+ prop.substring(1);
@@ -197,7 +196,7 @@ public class CacheInterceptor implements MethodInterceptor {
 		return key.toString();
 	}
 
-	/* Get key using the generator */
+	// Get key using the generator 
 	private String getKeyWithGenerator(MethodInvocation invoction, String keyGenerator) 
 			throws Exception {
 		Class<?> ckg = Class.forName(keyGenerator);
@@ -205,12 +204,12 @@ public class CacheInterceptor implements MethodInterceptor {
 		return ikg.generate(invoction.getArguments());
 	}
 	
-	/* Make the key feeding to memcached. */
+	// Make the key feeding to memcached. 
 	private String makeMemcachedKey(String namespace, long namespaceTag, String key) {
 		return namespace + '_' + namespaceTag + ':' + key;
 	}
 	
-	/* Helper class to hold key generating information. */
+	// Helper class to hold key generating information. 
 	private static class KeyInfo {
 		String key;
 		int[]  keyArgs;
